@@ -8,6 +8,8 @@ import se.edu.inclass.task.TaskNameComparator;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static java.util.stream.Collectors.toList;
+
 public class Main {
 
     private TaskNameComparator taskNameComparator;
@@ -16,17 +18,23 @@ public class Main {
         System.out.println("Welcome to Task (stream) manager\n");
         DataManager dm = new DataManager("./data/data.txt");
         ArrayList<Task> tasksData = dm.loadData();
-        /*
         System.out.println();
-        System.out.println("Printing deadlines");
+        System.out.println("Printing deadlines before Sorting");
         printDeadlines(tasksData);
-
         System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
-        printData(tasksData);
-        printDataUsingStreams(tasksData);
-        */
+        System.out.println("Printing deadlines after sorting");
         printDeadlinesUsingStreams(tasksData);
-        System.out.println("Total number of deadlines counted using streams: " + countDeadlinesUsingStreams(tasksData));
+        ArrayList<Task> filteredList = filterTaskListUsingSteams(tasksData, "11");
+        System.out.println("Filtered list of tasks: ");
+        printData(filteredList);
+    }
+
+    public static ArrayList<Task> filterTaskListUsingSteams(ArrayList<Task> tasks, String filterString) {
+        ArrayList<Task> filteredList = (ArrayList<Task>) tasks.stream() // cast to array list since collect() returns list
+                .filter(t -> t.getDescription().contains(filterString))
+                .collect(toList());
+
+        return filteredList;
     }
 
     private static int countDeadlines(ArrayList<Task> tasksData) {
@@ -71,11 +79,11 @@ public class Main {
         }
     }
 
-    // add code to use streams to print deadlines
+    // add code to use streams to print deadlines w/ sorting
     public static void printDeadlinesUsingStreams(ArrayList<Task> tasks) {
-        System.out.println("Printing deadline using streams");
-        tasks.stream() // convert to stream
-                .filter(t -> t instanceof Deadline) // filter only the deadlines
-                .forEach(System.out::println); // print them
+        tasks.stream()
+                .filter(t -> t instanceof Deadline)
+                .sorted((a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()))
+                .forEach(System.out::println);
     }
 }
