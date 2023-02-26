@@ -42,17 +42,36 @@ public class Main {
                 .count();
         return count;
     }
+
+
     public static void printData(ArrayList<Task> tasksData) {
+        System.out.println("Printing data using iteration");
         for (Task t : tasksData) {
             System.out.println(t);
         }
     }
 
+    // add code to use streams to print tasks
+    public static void printDataUsingStreams(ArrayList<Task> tasks) {
+        System.out.println("Printing data using streams");
+        tasks.stream() // convert to stream
+                .forEach(System.out::println);
+    }
+
     public static void printDeadlines(ArrayList<Task> tasksData) {
+        System.out.println("Printing deadline using iteration");
         for (Task t : tasksData) {
             if (t instanceof Deadline) {
                 System.out.println(t);
             }
         }
+    }
+
+    // add code to use streams to print deadlines
+    public static void printDeadlinesUsingStreams(ArrayList<Task> tasks) {
+        System.out.println("Printing deadline using streams");
+        tasks.stream() // convert to stream
+                .filter(t -> t instanceof Deadline) // filter only the deadlines
+                .forEach(System.out::println); // print them
     }
 }
