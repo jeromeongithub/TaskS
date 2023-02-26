@@ -5,6 +5,7 @@ import se.edu.inclass.task.Deadline;
 import se.edu.inclass.task.Task;
 import se.edu.inclass.task.TaskNameComparator;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Main {
@@ -15,14 +16,17 @@ public class Main {
         System.out.println("Welcome to Task (stream) manager\n");
         DataManager dm = new DataManager("./data/data.txt");
         ArrayList<Task> tasksData = dm.loadData();
-
-        printData(tasksData);
+        /*
         System.out.println();
         System.out.println("Printing deadlines");
         printDeadlines(tasksData);
 
         System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
-
+        printData(tasksData);
+        printDataUsingStreams(tasksData);
+        */
+        printDeadlinesUsingStreams(tasksData);
+        System.out.println("Total number of deadlines counted using streams: " + countDeadlinesUsingStreams(tasksData));
     }
 
     private static int countDeadlines(ArrayList<Task> tasksData) {
